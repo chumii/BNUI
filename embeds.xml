@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <!-- Libraries -->
+    <!-- Media -->
+    <!-- Locales -->
+    <!-- Engine-->
+    <Script file="Init.lua"/>
+    <!-- Core -->
+    <Include file="Core\Load_Core.xml" />
+    <!-- Config -->
+    <Script file="Config/Init_Settings.lua"/>
+    <Include file="Config/Load_Settings.xml"/>
+    <!-- Modules -->
+    <Include file="Modules\Load_Modules.xml"/>
+
+
+
+    <!-- ACE Libs -->
+    <!-- <Script file="Libs\LibStub\LibStub.lua"/>
+    <Include file="Libs\AceAddon-3.0\AceAddon-3.0.xml"/>
+    <Include file="Libs\AceConsole-3.0\AceConsole-3.0.xml"/>
+    <Script file ="Libs\LibGroupInSpecT-1.1\LibGroupInSpecT-1.1.lua"/>
+    <Script file="Libs\LibStub\LibStub.lua"/>
+    <Script file="Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua"/>
+	<Script file="Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
+    <Script file="Libs\LibBossIDs-1.0\LibBossIDs-1.0.lua"/> 
+    <Script file="Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua"/>  Minimap Icon -->
+</Ui>

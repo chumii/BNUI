@@ -1,0 +1,8 @@
+## Interface: 110105
+## Name: BNUI
+## Title: |cff14B8A6BN|rUI
+## Version: 0.0.1
+## Author: Bambule#21598, Noroth#2308
+## SavedVariables: BNUIDB
+
+embeds.xml
