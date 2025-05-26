@@ -18,10 +18,13 @@ M.AddonColor = "14B8A6"
 local f = CreateFrame("Frame")
 f:RegisterEvent("ADDON_LOADED")
 f:SetScript("OnEvent", function(self, event, addon)
-    if addon == AddOnName then
+    if event == "ADDON_LOADED" and addon == AddOnName then
         M:Print(M.Title .. " " .. M.Version)
+        M.GUI:Enable()
     end
 end)
+
+
 
 -- Expose the Engine globally
 _G.BNUI = Engine
