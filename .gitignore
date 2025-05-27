@@ -1,3 +1,6 @@
 /.vscode
 /BlizzardInterfaceCode
 /BlizzardInterfaceArt
+Core/_GUI_Categories.lua
+Core/_GUI_Templates.xml
+Core/_GUI.lua
