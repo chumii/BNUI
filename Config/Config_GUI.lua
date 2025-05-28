@@ -5,64 +5,87 @@ GUI.ConfigElements = {}
 
 -- Define configuration functions for specific subcategories
 GUI.ConfigElements["Chat"] = function(scrollContent)
-    -- Assuming the title text is already in scrollContent at -10 from top
-    local currentYOffset = -40 -- Starting Y position below the title text
-    local spacing = 25 -- Vertical space between checkboxes
-    local checkboxHeight = 26
-    local numColumns = 4
-    local checkboxesPerBlock = 5
-    local totalCheckboxes = 20
-    local blocksPerColumn = totalCheckboxes / (numColumns * checkboxesPerBlock)
-    local columnWidth = scrollContent:GetWidth() / numColumns
-    local scrollContentWidth = scrollContent:GetWidth()
-
-    for i = 1, totalCheckboxes do
-        -- Calculate which column and block this checkbox belongs to
-        local column = math.floor((i - 1) / (checkboxesPerBlock * blocksPerColumn)) + 1
-        local blockInColumn = math.floor(((i - 1) % (checkboxesPerBlock * blocksPerColumn)) / checkboxesPerBlock)
-        local positionInBlock = ((i - 1) % checkboxesPerBlock) + 1
-        
-        -- Add a checkbox to the Chat scroll content frame
-        local myCheckbox = CreateFrame("CheckButton", nil, scrollContent, "UICheckButtonTemplate")
-        local xOffset = (column - 1) * columnWidth
-        local yOffset = currentYOffset - (blockInColumn * (checkboxesPerBlock * spacing)) - ((positionInBlock - 1) * spacing)
-        myCheckbox:SetPoint("TOPLEFT", scrollContent, "TOPLEFT", 20 + xOffset, yOffset)
-        myCheckbox:SetSize(checkboxHeight, checkboxHeight)
-        myCheckbox:SetScript("OnClick", function(self)
-            print("Chat checkbox " .. i .. " clicked! Checked: " .. tostring(self:GetChecked()))
-        end)
-
-        -- Add text label for the checkbox
-        myCheckbox.Text:SetFont("Fonts\\FRIZQT__.TTF", 12)
-        myCheckbox.Text:SetText("Enable Chat Feature " .. i)
-    end
-        
-    -- -- Add a divider under the title
-    -- GUI:CreateDivider(scrollContent, 15, 30, 1)    
-    local test = (5*checkboxHeight)+40
-    GUI:CreateDivider(scrollContent, 15, test, 1)
+     -- Create a new frame for the red box
+     local redBox = CreateFrame("Frame", nil, scrollContent, "BackdropTemplate")
     
-    -- Calculate the total height needed for the scrollContent frame
-    local totalContentHeight = math.abs(currentYOffset) + (5 * checkboxHeight) -- Height for 5 rows
-    scrollContent:SetHeight(totalContentHeight)
+     -- Set the size and position
+     redBox:SetHeight(5000)
+     redBox:SetPoint("TOPLEFT", scrollContent.Divider, "BOTTOMLEFT", 0, -10) -- 10px spacing from divider
+     redBox:SetPoint("TOPRIGHT", scrollContent.Divider, "BOTTOMRIGHT", 0, -10)
+     
+     -- Set the background color to red
+     redBox:SetBackdrop({
+         bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+         edgeFile = nil,
+         tile = false,
+         tileSize = 0,
+         edgeSize = 0,
+         insets = { left = 0, right = 0, top = 0, bottom = 0 }
+     })
+     redBox:SetBackdropColor(1, 1, 0, 1) -- Red color (R,G,B,A)
 end
 
 GUI.ConfigElements["BNUI"] = function(scrollContent)
-    -- Add a checkbox to the BNUI scroll content frame
-    -- Assuming the title text is already in scrollContent at -10 from top
-    local myCheckbox = CreateFrame("CheckButton", nil, scrollContent, "UICheckButtonTemplate")
-    myCheckbox:SetPoint("TOPLEFT", scrollContent, "TOPLEFT", 20, -40) -- Position it below the title
-    myCheckbox:SetSize(26, 26) -- Standard checkbox size
-    myCheckbox:SetScript("OnClick", function(self)
-        print("BNUI checkbox clicked! Checked: " .. tostring(self:GetChecked()))
-    end)
+    -- Create a new frame for the red box
+    local redBox = CreateFrame("Frame", nil, scrollContent, "BackdropTemplate")
+    
+    -- Set the size and position
+    redBox:SetHeight(5000)
+    redBox:SetPoint("TOPLEFT", scrollContent.Divider, "BOTTOMLEFT", 0, -10) -- 10px spacing from divider
+    redBox:SetPoint("TOPRIGHT", scrollContent.Divider, "BOTTOMRIGHT", 0, -10)
+    
+    -- Set the background color to red
+    redBox:SetBackdrop({
+        bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+        edgeFile = nil,
+        tile = false,
+        tileSize = 0,
+        edgeSize = 0,
+        insets = { left = 0, right = 0, top = 0, bottom = 0 }
+    })
+    redBox:SetBackdropColor(1, 0, 0, 1) -- Red color (R,G,B,A)
+end
 
-    -- Add text label for the checkbox
-    myCheckbox.Text:SetFont("Fonts\\FRIZQT__.TTF", 12)
-    myCheckbox.Text:SetText("Enable BNUI Features")
+GUI.ConfigElements["Dev"] = function(scrollContent)
+    -- Create a new frame for the red box
+    local redBox = CreateFrame("Frame", nil, scrollContent, "BackdropTemplate")
+    
+    -- Set the size and position
+    redBox:SetHeight(5000)
+    redBox:SetPoint("TOPLEFT", scrollContent.Divider, "BOTTOMLEFT", 0, -10) -- 10px spacing from divider
+    redBox:SetPoint("TOPRIGHT", scrollContent.Divider, "BOTTOMRIGHT", 0, -10)
+    
+    -- Set the background color to red
+    redBox:SetBackdrop({
+        bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+        edgeFile = nil,
+        tile = false,
+        tileSize = 0,
+        edgeSize = 0,
+        insets = { left = 0, right = 0, top = 0, bottom = 0 }
+    })
+    redBox:SetBackdropColor(1, 1, 1, 1) -- Red color (R,G,B,A)
+end
 
-    -- Set the height of the scrollContent frame (adjust as needed based on content)
-    scrollContent:SetHeight(100) -- Example height, adjust based on actual content
+GUI.ConfigElements["Player"] = function(scrollContent)
+        -- Create a new frame for the red box
+        local redBox = CreateFrame("Frame", nil, scrollContent, "BackdropTemplate")
+    
+        -- Set the size and position
+        redBox:SetHeight(500)
+        redBox:SetPoint("TOPLEFT", scrollContent.Divider, "BOTTOMLEFT", 0, -10) -- 10px spacing from divider
+        redBox:SetPoint("TOPRIGHT", scrollContent.Divider, "BOTTOMRIGHT", 0, -10)
+        
+        -- Set the background color to red
+        redBox:SetBackdrop({
+            bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+            edgeFile = nil,
+            tile = false,
+            tileSize = 0,
+            edgeSize = 0,
+            insets = { left = 0, right = 0, top = 0, bottom = 0 }
+        })
+        redBox:SetBackdropColor(0, 0, 1, 1) -- Red color (R,G,B,A)
 end
 
 -- Main function to initialize config elements based on registered functions
@@ -87,5 +110,7 @@ function GUI:InitializeConfigElements()
         end
     end
 end
+
+
 
 

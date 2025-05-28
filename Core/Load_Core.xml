@@ -2,8 +2,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
    <!-- Load_Core -->
    <Script file="Functions.lua"/>
-   <!-- <Include file="GUI_Templates.xml"/> -->
    <Script file="GUI.lua"/>
-   <!-- <Script file="GUI_Categories.lua"/> -->
    <Script file="Commands.lua"/>
 </Ui>

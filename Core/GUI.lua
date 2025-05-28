@@ -201,8 +201,8 @@ function GUI:CreateDivider(parent, xOffset, yOffset, height)
     })
     divider:SetBackdropColor(0.6, 0.6, 0.6, 0.8)
     
-    -- Debug output
-    --M:Print("Created divider: " .. dividerName .. " at yOffset: " .. yOffset)
+    -- Store the divider as a property of the parent frame
+    parent.Divider = divider
     
     return divider
 end
@@ -265,13 +265,16 @@ function GUI.Enable(self)
     self.Created = true
 
     -- Add Categories
-    self:AddCategory("General", {"Interface", "Combat", "Chat"})
-    self:AddCategory("AddOns", {"BNUI", "Other AddOns"})
+    if M.isDeveloper then
+        self:AddCategory("DEV", {"Dev"})
+    end
+    self:AddCategory("AddOns", {"BNUI", "Chat"})
+    self:AddCategory("Unitframes", {"Player", "Target", "Focus", "Pet"})
 
     -- Configure GUI elements from external file
     self:InitializeConfigElements()
 
-    M:Print("GUI Enabled")
+    M:PrintDev("GUI Enabled")
 
 end
 
