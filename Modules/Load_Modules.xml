@@ -3,4 +3,6 @@
     <Script file="Chat/core.lua"/>
     <Script file="Theme/core.lua"/>
     <Script file="UI/core.lua"/>
+    <Script file="UnitFrames/core.lua"/>
+    <Script file="UnitFrames/Units/player.lua"/>
 </Ui>

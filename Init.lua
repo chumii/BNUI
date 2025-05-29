@@ -13,6 +13,7 @@ local M, C, L = Engine[1], Engine[2], Engine[3]
 
 -- Lib
 M.LibSharedMedia = LibStub("LibSharedMedia-3.0", true) or nil
+M.oUF = Engine and Engine.oUF or nil
 
 -- Addon Info
 M.Name = AddOnName

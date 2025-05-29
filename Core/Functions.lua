@@ -3,7 +3,8 @@ local M, C = BNUI[1], BNUI[2]
 M.Devs = {
     ["Perdautz-Aegwynn"] = true,
     ["Cptstoffel-Blackrock"] = true,
-    ["Racnar-Blackrock"] = true
+    ["Racnar-Blackrock"] = true,
+    ["Rovean-Blackrock"] = true,
 }
 
 local function isDeveloper()
