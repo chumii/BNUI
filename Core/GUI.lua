@@ -207,6 +207,45 @@ function GUI:CreateDivider(parent, xOffset, yOffset, height)
     return divider
 end
 
+-- Helper function to create a checkbox
+function GUI:CreateCheckbox(parent, anchor, text, x, y, category, key, tooltip)
+    local checkbox = CreateFrame("CheckButton", nil, parent, "InterfaceOptionsCheckButtonTemplate")
+    
+    -- Set position based on anchor if provided, otherwise use parent
+    if anchor then
+        checkbox:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", x, y)
+    else
+        checkbox:SetPoint("TOPLEFT", parent, "TOPLEFT", x, y)
+    end
+    
+    checkbox.Text:SetText(text)
+    
+    -- Set the initial state based on profile or default
+    checkbox:SetChecked(M.Profiles:GetSetting(category, key))
+    
+    -- Add tooltip if provided
+    if tooltip then
+        checkbox:SetScript("OnEnter", function(self)
+            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+            GameTooltip:AddLine(tooltip.title, 1, 1, 1)
+            if tooltip.text then
+                GameTooltip:AddLine(tooltip.text, 0.7, 0.7, 0.7, true)
+            end
+            GameTooltip:Show()
+        end)
+        checkbox:SetScript("OnLeave", function(self)
+            GameTooltip:Hide()
+        end)
+    end
+    
+    -- Handle checkbox changes
+    checkbox:SetScript("OnClick", function(self)
+        M.Profiles:SetSetting(category, key, self:GetChecked())
+    end)
+    
+    return checkbox
+end
+
 function GUI.Enable(self)
     if self.Created then
         return

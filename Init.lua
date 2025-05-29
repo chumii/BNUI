@@ -26,6 +26,9 @@ M.Realm = GetRealmName()
 M.Sex = UnitSex("player")
 M.GUID = UnitGUID("player")
 
+-- Media Info
+M.MediaFolder = "Interface\\AddOns\\BNUI\\Media\\"
+
 -- Tables
 local eventsFrame = CreateFrame("Frame")
 local events = {}
