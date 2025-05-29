@@ -33,8 +33,8 @@ function GUI:CreateCategory(parent, text, yPosition)
     button:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
     
     -- Button text
-    button.Text = button:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    button.Text:SetFont("Fonts\\FRIZQT__.TTF", 12)
+    button.Text = button:CreateFontString(nil, "OVERLAY", M.UIFont)
+    -- button.Text:SetFont("Fonts\\FRIZQT__.TTF", 12)
     button.Text:SetPoint("CENTER", 0, 0)
     button.Text:SetText(text)
     
@@ -59,8 +59,8 @@ function GUI:CreateSubCategory(parent, text, yPosition)
     button:SetBackdropBorderColor(0.5, 0.5, 0.5, 0)
     
     -- Button text
-    button.Text = button:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    button.Text:SetFont("Fonts\\FRIZQT__.TTF", 12)
+    button.Text = button:CreateFontString(nil, "OVERLAY", M.UIFontSmallYellow)
+    -- button.Text:SetFont("Fonts\\FRIZQT__.TTF", 12)
     button.Text:SetPoint("LEFT", 10, 0)
     button.Text:SetText(text)
     
@@ -96,7 +96,7 @@ function GUI:CreateSubCategory(parent, text, yPosition)
     -- The scrollbar will be accessible as contentFrame.ScrollBar
 
     -- Add the subcategory title to the INNER content frame for testing
-    local titleText = scrollContent:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    local titleText = scrollContent:CreateFontString(nil, "OVERLAY", M.UIFont)
     titleText:SetPoint("TOPLEFT", scrollContent, "TOPLEFT", 20, 0)
     titleText:SetText(text)
     titleText:SetTextColor(1, 1, 1, 1)
@@ -218,6 +218,7 @@ function GUI:CreateCheckbox(parent, anchor, text, x, y, category, key, tooltip)
         checkbox:SetPoint("TOPLEFT", parent, "TOPLEFT", x, y)
     end
     
+    checkbox.Text:SetFontObject(M.UIFont)
     checkbox.Text:SetText(text)
     
     -- Set the initial state based on profile or default
@@ -264,7 +265,7 @@ function GUI.Enable(self)
 
     -- Title Text
     self.TitleText = self.TitleContainer:CreateFontString(nil, "OVERLAY")
-    self.TitleText:SetFont("Fonts\\FRIZQT__.TTF", 12, "OUTLINE")
+    self.TitleText:SetFont(M.UIFont, 12, "OUTLINE")
     self.TitleText:SetPoint("CENTER", self.TitleContainer, "CENTER", 0, 0)
     self.TitleText:SetText("BNUI - Config")
     self.TitleText:SetTextColor(1, 0.8, 0, 1)

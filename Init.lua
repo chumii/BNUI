@@ -1,6 +1,8 @@
 local AddOnName, Engine = ...
 
 local C_AddOns_GetAddOnMetadata = C_AddOns.GetAddOnMetadata
+local LibStub = LibStub
+
 
 -- Engine Tables
 Engine[1] = {} -- M Main
@@ -8,6 +10,9 @@ Engine[2] = {} -- C Config
 Engine[3] = {} -- L Localization
 
 local M, C, L = Engine[1], Engine[2], Engine[3]
+
+-- Lib
+M.LibSharedMedia = LibStub("LibSharedMedia-3.0", true) or nil
 
 -- Addon Info
 M.Name = AddOnName
@@ -28,6 +33,10 @@ M.GUID = UnitGUID("player")
 
 -- Media Info
 M.MediaFolder = "Interface\\AddOns\\BNUI\\Media\\"
+M.UIFont = "BNUIFontNormal"
+M.UIFontYellow = "BNUIFontNormalYellow"
+M.UIFontSmall = "BNUIFontSmall"
+M.UIFontSmallYellow = "BNUIFontSmallYellow"
 
 -- Tables
 local eventsFrame = CreateFrame("Frame")
@@ -98,7 +107,7 @@ end)
 
 M:RegisterEvent("PLAYER_LOGIN", function()
 	-- Initialize profile system
-	--M.Profiles:Initialize()
+	-- M.Profiles:Initialize()
 	
 	-- Set CVars, UI Scale etc
 	

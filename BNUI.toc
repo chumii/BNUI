@@ -5,4 +5,5 @@
 ## Author: Bambule#21598, Noroth#2308
 ## SavedVariables: BNUIDB
 
+FontStyles.xml
 embeds.xml
