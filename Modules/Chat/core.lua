@@ -23,7 +23,7 @@ function ChatModule:Initialize()
     self:SetupChatFrames()
     
     self.initialized = true
-    M:Print("Chat module initialized")
+    --M:Print("Chat module initialized")
 end
 
 function ChatModule:SetupChatFrames()

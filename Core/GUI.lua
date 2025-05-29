@@ -307,7 +307,7 @@ function GUI.Enable(self)
     if M.isDeveloper then
         self:AddCategory("DEV", {"Dev"})
     end
-    self:AddCategory("AddOns", {"BNUI", "Chat"})
+    self:AddCategory("General", {"BNUI Settings"})
     self:AddCategory("Unitframes", {"Player", "Target", "Focus", "Pet"})
 
     -- Configure GUI elements from external file

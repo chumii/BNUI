@@ -27,7 +27,7 @@ function ThemeModule:Initialize()
     self:SetupTheme()
     
     self.initialized = true
-    M:Print("Theme module initialized")
+    --M:Print("Theme module initialized")
 end
 
 function ThemeModule:GetColor(name)

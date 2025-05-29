@@ -1,7 +1,7 @@
 local M, C, L = BNUI[1], BNUI[2], BNUI[3]
 local GUI = M["GUI"]
 
-GUI.ConfigElements["BNUI"] = function(scrollContent)
+GUI.ConfigElements["BNUI Settings"] = function(scrollContent)
     -- Create a new frame for the red box
     local redBox = CreateFrame("Frame", nil, scrollContent, "BackdropTemplate")
     

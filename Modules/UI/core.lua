@@ -17,7 +17,7 @@ function UIModule:Initialize()
     self:SetupUIComponents()
     
     self.initialized = true
-    M:Print("UI module initialized")
+    --M:Print("UI module initialized")
 end
 
 function UIModule:CreateFrame(name, parent, template)
