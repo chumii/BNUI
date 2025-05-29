@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <!-- Normal Font -->
+   <FontFamily name="BNUIFontNormal" virtual="true">
+      <Member alphabet="roman">
+         <Font font="Interface\AddOns\BNUI\Media\Fonts\expressway.ttf" height="12">
+            <Shadow>
+               <Offset>
+                  <AbsDimension x="1" y="-1" />
+               </Offset>
+               <Color r="0" g="0" b="0" />
+            </Shadow>
+         </Font>
+      </Member>
+      <Member alphabet="korean">
+         <Font font="Interface\AddOns\BNUI\Media\Fonts\expressway.ttf" height="12">
+            <Shadow>
+               <Offset>
+                  <AbsDimension x="1" y="-1" />
+               </Offset>
+               <Color r="0" g="0" b="0" />
+            </Shadow>
+         </Font>
+      </Member>
+      <Member alphabet="simplifiedchinese">
+         <Font font="Interface\AddOns\BNUI\Media\Fonts\expressway.ttf" height="12">
+            <Shadow>
+               <Offset>
+                  <AbsDimension x="1" y="-1" />
+               </Offset>
+               <Color r="0" g="0" b="0" />
+            </Shadow>
+         </Font>
+      </Member>
+      <Member alphabet="traditionalchinese">
+         <Font font="Interface\AddOns\BNUI\Media\Fonts\expressway.ttf" height="12">
+            <Shadow>
+               <Offset>
+                  <AbsDimension x="1" y="-1" />
+               </Offset>
+               <Color r="0" g="0" b="0" />
+            </Shadow>
+         </Font>
+      </Member>
+      <Member alphabet="russian">
+         <Font font="Interface\AddOns\BNUI\Media\Fonts\expressway.ttf" height="12">
+            <Shadow>
+               <Offset>
+                  <AbsDimension x="1" y="-1" />
+               </Offset>
+               <Color r="0" g="0" b="0" />
+            </Shadow>
+         </Font>
+      </Member>
+   </FontFamily>
+
+   <!-- Normal Font Yellow -->
+   <Font name="BNUIFontNormalYellow" inherits="BNUIFontNormal" virtual="true">
+      <Color r="1.0" g="0.82" b="0" />
+      <Shadow>
+         <Offset>
+            <AbsDimension x="1" y="-1" />
+         </Offset>
+         <Color r="0" g="0" b="0" />
+      </Shadow>
+   </Font>
+
+   <!-- Normal Font Small -->
+   <FontFamily name="BNUIFontSmall" virtual="true">
+      <Member alphabet="roman">
+         <Font font="Interface\AddOns\BNUI\Media\Fonts\expressway.ttf" height="10">
+            <Shadow>
+               <Offset>
+                  <AbsDimension x="1" y="-1" />
+               </Offset>
+               <Color r="0" g="0" b="0" />
+            </Shadow>
+         </Font>
+      </Member>
+      <Member alphabet="korean">
+         <Font font="Interface\AddOns\BNUI\Media\Fonts\expressway.ttf" height="10">
+            <Shadow>
+               <Offset>
+                  <AbsDimension x="1" y="-1" />
+               </Offset>
+               <Color r="0" g="0" b="0" />
+            </Shadow>
+         </Font>
+      </Member>
+      <Member alphabet="simplifiedchinese">
+         <Font font="Interface\AddOns\BNUI\Media\Fonts\expressway.ttf" height="10">
+            <Shadow>
+               <Offset>
+                  <AbsDimension x="1" y="-1" />
+               </Offset>
+               <Color r="0" g="0" b="0" />
+            </Shadow>
+         </Font>
+      </Member>
+      <Member alphabet="traditionalchinese">
+         <Font font="Interface\AddOns\BNUI\Media\Fonts\expressway.ttf" height="10">
+            <Shadow>
+               <Offset>
+                  <AbsDimension x="1" y="-1" />
+               </Offset>
+               <Color r="0" g="0" b="0" />
+            </Shadow>
+         </Font>
+      </Member>
+      <Member alphabet="russian">
+         <Font font="Interface\AddOns\BNUI\Media\Fonts\expressway.ttf" height="10">
+            <Shadow>
+               <Offset>
+                  <AbsDimension x="1" y="-1" />
+               </Offset>
+               <Color r="0" g="0" b="0" />
+            </Shadow>
+         </Font>
+      </Member>
+   </FontFamily>
+
+   <!-- Normal Font Yellow -->
+   <Font name="BNUIFontSmallYellow" inherits="BNUIFontSmall" virtual="true">
+      <Color r="1.0" g="0.82" b="0" />
+      <Shadow>
+         <Offset>
+            <AbsDimension x="1" y="-1" />
+         </Offset>
+         <Color r="0" g="0" b="0" />
+      </Shadow>
+   </Font>
+
+   
+</Ui>
+

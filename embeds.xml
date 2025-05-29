@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>  
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
     <!-- Libraries -->
-    <!-- Media -->
-    <!-- Locales -->
+    <Include file="Libs\Load_Libraries.xml" />    
     <!-- Engine-->
     <Script file="Init.lua"/>
+    <!-- Media -->
+    <Script file="Media\Media.lua"/>
+    <!-- Locales -->
     <!-- Core -->
-    <Include file="Core\Load_Core.xml" />
+    <Include file="Core\Load_Core.xml"/>
     <!-- Config -->
-    <Script file="Config/Init_Settings.lua"/>
-    <Include file="Config/Load_Settings.xml"/>
+    <Script file="Config\Init_Settings.lua"/>
+    <Include file="Config\Load_Settings.xml"/>
     <!-- Modules -->
     <Include file="Modules\Load_Modules.xml"/>
 

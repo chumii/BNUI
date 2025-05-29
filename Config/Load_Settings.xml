@@ -3,8 +3,6 @@
    <!-- Load_Config -->
    <Script file="Config_GUI.lua" />
    <!-- Load Config Elements -->
-   <Script file="Elements/Chat.lua" />
    <Script file="Elements/BNUI.lua" />
    <Script file="Elements/Dev.lua" />
-   <Script file="Elements/Player.lua" />
 </Ui>
