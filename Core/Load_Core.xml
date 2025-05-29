@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
    <!-- Load_Core -->
+   <Script file="Module.lua"/>
+   <Script file="Profiles.lua"/>
    <Script file="Functions.lua"/>
+   <Script file="Loading.lua"/>
    <Script file="GUI.lua"/>
    <Script file="Commands.lua"/>
 </Ui>
