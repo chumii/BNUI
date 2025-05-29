@@ -23,6 +23,13 @@ C["Media"] = {
 		Water = mediaFolder .. "Statusbars\\Water.tga",
 		ZorkUI = mediaFolder .. "Statusbars\\ZorkUI.tga",
 	},
+    ["Fonts"] = {
+		Expressway = mediaFolder .. "Fonts\\expressway.ttf",
+        FRIZQT = mediaFolder .. "Fonts\\FRIZQT__.ttf",
+        PassionOne = mediaFolder .. "Fonts\\PassionOne-Regular.ttf",
+        RobotoSlab_Regular = mediaFolder .. "Fonts\\RobotoSlab-Regular.ttf",
+        RobotoSlab_Bold = mediaFolder .. "Fonts\\RobotoSlab-Bold.ttf",
+	},
 }
 
 local statusbars = C["Media"].Statusbars

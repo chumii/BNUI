@@ -1,5 +1,6 @@
 local M, C, L = BNUI[1], BNUI[2], BNUI[3]
 local GUI = M["GUI"]
+local Fonts = C["Media"]["Fonts"]
 
 GUI.ConfigElements["Dev"] = function(scrollContent)
     -- Create a checkbox for Dev mode with tooltip
@@ -9,5 +10,30 @@ GUI.ConfigElements["Dev"] = function(scrollContent)
     })
     
     -- Create a checkbox without tooltip, anchored to the first checkbox
-    GUI:CreateCheckbox(scrollContent, firstCheckbox, "Another Setting", 0, 0, "Dev", "SettingTwo", nil)
+    local secondCheckbox = GUI:CreateCheckbox(scrollContent, firstCheckbox, "Another Setting", 0, 0, "Dev", "SettingTwo", nil)
+
+    -- Create a new frame for the red box
+    local redBox = CreateFrame("Frame", nil, scrollContent, "BackdropTemplate")
+
+    -- Set the size and position
+    redBox:SetHeight(50)
+    redBox:SetWidth(250)
+    redBox:SetPoint("TOPLEFT", secondCheckbox, "BOTTOMLEFT", 0, -10) 
+    
+    -- Set the background color to red
+    redBox:SetBackdrop({
+        bgFile = M.GetTexture("WGlass"),
+        -- edgeFile = nil,
+        -- tile = false,
+        -- tileSize = 0,
+        -- edgeSize = 0,
+        -- insets = { left = 0, right = 0, top = 0, bottom = 0 }
+    })
+    redBox:SetBackdropColor(1, 0, 0, 1) -- Red color (R,G,B,A)
+
+    local testText = GUI:CreateFontString(scrollContent, Fonts.RobotoSlab_Bold, 14, "Roboto Slab Bold 14")
+    testText:SetPoint("TOPLEFT", redBox, "BOTTOMLEFT", 0, -20)
+
+    local testTextTwo = GUI:CreateFontString(scrollContent, Fonts.PassionOne, 18, "Passion One 18")
+    testTextTwo:SetPoint("TOPLEFT", testText, "BOTTOMLEFT", 0, -10)
 end 

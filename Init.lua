@@ -1,5 +1,11 @@
 local AddOnName, Engine = ...
 
+local pairs = pairs
+local select = select
+local string_format = string.format
+local string_lower = string.lower
+local tonumber = tonumber
+
 local C_AddOns_GetAddOnMetadata = C_AddOns.GetAddOnMetadata
 local LibStub = LibStub
 
@@ -30,6 +36,14 @@ M.Client = GetLocale()
 M.Realm = GetRealmName()
 M.Sex = UnitSex("player")
 M.GUID = UnitGUID("player")
+
+-- Screen Info
+M.ScreenWidth, M.ScreenHeight = GetPhysicalScreenSize()
+M.Resolution = string_format("%dx%d", M.ScreenWidth, M.ScreenHeight)
+
+-- WoW Info
+M.WowPatch, M.WowBuild, M.WowRelease, M.TocVersion = GetBuildInfo()
+M.WowBuild = tonumber(M.WowBuild)
 
 -- Media Info
 M.MediaFolder = "Interface\\AddOns\\BNUI\\Media\\"
