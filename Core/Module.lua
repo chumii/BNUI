@@ -3,7 +3,8 @@ local M = BNUI[1]
 local Module = {
     modules = {},
     loaded = {},
-    dependencies = {}
+    dependencies = {},
+    registrationQueue = {} -- New table to store modules in registration order
 }
 
 -- Register a new module
@@ -15,6 +16,9 @@ function Module:Register(name, moduleTable)
     
     self.modules[name] = moduleTable
     self.dependencies[name] = moduleTable.dependencies or {}
+    
+    -- Add to registration queue
+    table.insert(self.registrationQueue, name)
 end
 
 -- Load a module and its dependencies
@@ -54,6 +58,13 @@ end
 -- Check if a module is loaded
 function Module:IsLoaded(name)
     return self.loaded[name] == true
+end
+
+-- New function to load all registered modules in registration order
+function Module:LoadAll()
+    for _, name in ipairs(self.registrationQueue) do
+        self:Load(name)
+    end
 end
 
 M.Module = Module

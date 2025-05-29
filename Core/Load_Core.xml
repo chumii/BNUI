@@ -3,6 +3,7 @@
    <!-- Load_Core -->
    <Script file="Module.lua"/>
    <Script file="Functions.lua"/>
+   <Script file="Loading.lua"/>
    <Script file="GUI.lua"/>
    <Script file="Commands.lua"/>
 </Ui>
