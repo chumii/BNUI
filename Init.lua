@@ -26,13 +26,17 @@ M.Realm = GetRealmName()
 M.Sex = UnitSex("player")
 M.GUID = UnitGUID("player")
 
--- Test
+-- Initialize modules
 local f = CreateFrame("Frame")
 f:RegisterEvent("ADDON_LOADED")
 f:SetScript("OnEvent", function(self, event, addon)
     if event == "ADDON_LOADED" and addon == AddOnName then
+        -- Load core modules
+        M.Module:Get("Theme")
+        M.Module:Get("UI")
+        M.Module:Get("Chat")
+        
         M:Print(M.Version .. " loaded")
-        M.GUI:Enable()
     end
 end)
 
