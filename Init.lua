@@ -26,19 +26,6 @@ M.Realm = GetRealmName()
 M.Sex = UnitSex("player")
 M.GUID = UnitGUID("player")
 
--- local f = CreateFrame("Frame")
--- f:RegisterEvent("ADDON_LOADED")
--- f:SetScript("OnEvent", function(self, event, addon)
---     if event == "ADDON_LOADED" and addon == AddOnName then
---         -- Load core modules
---         M.Module:Get("Theme")
---         M.Module:Get("UI")
---         M.Module:Get("Chat")
-        
---         M:Print(M.Version .. " loaded")
---     end
--- end)
-
 -- Tables
 local eventsFrame = CreateFrame("Frame")
 local events = {}
@@ -107,12 +94,15 @@ eventsFrame:SetScript("OnEvent", function(self, event, ...)
 end)
 
 M:RegisterEvent("PLAYER_LOGIN", function()
-    -- Set CVars, UI Scale etc
-    
-    -- Initialize all modules in registration order
-    M.Module:LoadAll()
-    
-    M:Print(M.Version .. " loaded")
+	-- Initialize profile system
+	--M.Profiles:Initialize()
+	
+	-- Set CVars, UI Scale etc
+	
+	-- Initialize all modules in registration order
+	M.Module:LoadAll()
+	
+	M:Print(M.Version .. " loaded")
 end)
 
 -- Expose the Engine globally

@@ -2,22 +2,27 @@ local M, C, L = BNUI[1], BNUI[2], BNUI[3]
 local GUI = M["GUI"]
 
 GUI.ConfigElements["Dev"] = function(scrollContent)
-    -- Create a new frame for the red box
-    local redBox = CreateFrame("Frame", nil, scrollContent, "BackdropTemplate")
+    -- Create a checkbox for Dev mode
+    local checkbox = CreateFrame("CheckButton", nil, scrollContent, "InterfaceOptionsCheckButtonTemplate")
+    checkbox:SetPoint("TOPLEFT", scrollContent, "TOPLEFT", 20, -40)
+    checkbox.Text:SetText("Enable Developer Mode")
     
-    -- Set the size and position
-    redBox:SetHeight(5000)
-    redBox:SetPoint("TOPLEFT", scrollContent.Divider, "BOTTOMLEFT", 0, -10) -- 10px spacing from divider
-    redBox:SetPoint("TOPRIGHT", scrollContent.Divider, "BOTTOMRIGHT", 0, -10)
+    -- Set the initial state based on profile or default
+    checkbox:SetChecked(M.Profiles:GetSetting("Dev", "SettingOne"))
     
-    -- Set the background color to red
-    redBox:SetBackdrop({
-        bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
-        edgeFile = nil,
-        tile = false,
-        tileSize = 0,
-        edgeSize = 0,
-        insets = { left = 0, right = 0, top = 0, bottom = 0 }
-    })
-    redBox:SetBackdropColor(1, 1, 1, 1) -- Red color (R,G,B,A)
+    -- Add tooltip
+    checkbox:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        GameTooltip:AddLine("Developer Mode", 1, 1, 1)
+        GameTooltip:AddLine("Enables additional developer features and debug information", 0.7, 0.7, 0.7, true)
+        GameTooltip:Show()
+    end)
+    checkbox:SetScript("OnLeave", function(self)
+        GameTooltip:Hide()
+    end)
+    
+    -- Handle checkbox changes
+    checkbox:SetScript("OnClick", function(self)
+        M.Profiles:SetSetting("Dev", "SettingOne", self:GetChecked())
+    end)
 end 
