@@ -5,3 +5,7 @@ C["Dev"] = {
     SettingOne = true,
     SettingTwo = true
 }
+
+C["UnitFrames"] = {
+    EnablePlayerFrame = true
+}

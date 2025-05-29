@@ -52,7 +52,11 @@ end
 
 -- Get a module (loads it if not already loaded)
 function Module:Get(name)
-    return self:Load(name)
+    if not self.modules[name] then
+        M:Print("Module " .. name .. " not found!")
+        return nil
+    end
+    return self.modules[name]
 end
 
 -- Check if a module is loaded
