@@ -247,6 +247,14 @@ function GUI:CreateCheckbox(parent, anchor, text, x, y, category, key, tooltip)
     return checkbox
 end
 
+-- Helper function to create FontString
+function GUI:CreateFontString(parent, font, size, text)
+    local fs = parent:CreateFontString(nil,"OVERLAY")
+    fs:SetFont(font, size, "")
+    fs:SetText(text)
+    return fs
+end
+
 function GUI.Enable(self)
     if self.Created then
         return
@@ -264,8 +272,7 @@ function GUI.Enable(self)
     self:SetScript("OnDragStop", self.StopMovingOrSizing)
 
     -- Title Text
-    self.TitleText = self.TitleContainer:CreateFontString(nil, "OVERLAY")
-    self.TitleText:SetFont(M.UIFont, 12, "OUTLINE")
+    self.TitleText = self.TitleContainer:CreateFontString(nil, "OVERLAY","BNUIFontNormalYellow")
     self.TitleText:SetPoint("CENTER", self.TitleContainer, "CENTER", 0, 0)
     self.TitleText:SetText("BNUI - Config")
     self.TitleText:SetTextColor(1, 0.8, 0, 1)
@@ -281,8 +288,8 @@ function GUI.Enable(self)
     self.CategoryList:SetBackdrop({
         bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
         edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-        edgeSize = 16,
-        insets = { left = 4, right = 4, top = 4, bottom = 4 }
+        edgeSize = 8,
+        insets = { left = 2, right = 2, top = 2, bottom = 2 }
     })
     self.CategoryList:SetBackdropColor(0.1, 0.1, 0.1, 0.8)
     self.CategoryList:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
@@ -314,8 +321,15 @@ function GUI.Enable(self)
     -- Configure GUI elements from external file
     self:InitializeConfigElements()
 
-    M:PrintDev("GUI Enabled")
+    -- Set default subcategory to show
+    if self.Categories[2] and self.Categories[2].subcategories[1] then
+        local defaultButton = self.Categories[2].subcategories[1]
+        defaultButton.contentFrame:Show()
+        defaultButton.scrollContent:Show()
+        self.activeContentFrame = defaultButton.scrollContent
+    end
 
+    M:PrintDev("GUI Enabled")
 end
 
 GUI.Toggle = function(self)
