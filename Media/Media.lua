@@ -30,6 +30,9 @@ C["Media"] = {
         RobotoSlab_Regular = mediaFolder .. "Fonts\\RobotoSlab-Regular.ttf",
         RobotoSlab_Bold = mediaFolder .. "Fonts\\RobotoSlab-Bold.ttf",
 	},
+	["Textures"] = {
+		BNUI_Border = mediaFolder .. "Textures\\bnui.tga",
+	},
 }
 
 local statusbars = C["Media"].Statusbars
