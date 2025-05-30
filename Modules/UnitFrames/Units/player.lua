@@ -1,4 +1,5 @@
 local M, C = BNUI[1], BNUI[2]
+local Textures = C["Media"]["Textures"]
 
 local Module = M.Module
 
@@ -28,7 +29,8 @@ function UnitFramesModule:CreatePlayeFrameStyle()
     playerContainerBackground:SetAllPoints()
     playerContainerBackground:SetBackdrop({
         bgFile = M.GetTexture("WGlass"),
-        insets = { left = 4, right = 4, top = 4, bottom = 4 }
+        --insets = { left = 4, right = 4, top = 4, bottom = 4 }
+        insets = { left = 2, right = 2, top = 2, bottom = 2 }
     })
 
     playerContainerBackground:SetBackdropColor(0.1, 0.1, 0.1, 0.8)
@@ -38,18 +40,19 @@ function UnitFramesModule:CreatePlayeFrameStyle()
     playerContainerBorder:SetFrameLevel(5)
     playerContainerBorder:SetAllPoints()
     playerContainerBorder:SetBackdrop({
-        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+        --edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+        edgeFile = Textures.BNUI_Border,
         edgeSize = 16,
     })
 
-    playerContainerBorder:SetBackdropBorderColor(0.0, 0.0, 0.0, 0.9)
+    playerContainerBorder:SetBackdropBorderColor(0.7, 0.7, 0.7, 1)
 
 
     local Health = CreateFrame("StatusBar", nil, playerContainer)
     
-    Health:SetPoint("TOPLEFT", playerContainer, "TOPLEFT", 4, -4)
-    Health:SetPoint("TOPRIGHT", playerContainer, "TOPRIGHT", -4, -4)
-    Health:SetHeight(50 * 0.8)
+    Health:SetPoint("TOPLEFT", playerContainer, "TOPLEFT", 2, -2)
+    Health:SetPoint("TOPRIGHT", playerContainer, "TOPRIGHT", -2, -2)
+    Health:SetHeight(50*0.9)
     Health:SetStatusBarTexture(M.GetTexture("WGlass"))
     Health:SetFrameLevel(4)
 
