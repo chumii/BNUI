@@ -448,33 +448,39 @@ function GUI.Enable(self)
     self.CloseButton = CreateFrame("Button", nil, self, "UIPanelCloseButtonDefaultAnchors")
     self.CloseButton:SetScript("OnClick", function() self:Hide() end)
 
+    -- CategoryList Container
+    self.CategoryListContainer = CreateFrame("Frame", nil, self, "BackdropTemplate")
+    self.CategoryListContainer:SetPoint("TOPLEFT", self, "TOPLEFT", Spacing, -Spacing*1.5)
+    self.CategoryListContainer:SetSize(GuiWidth*0.2, GuiHeight-(Spacing*2))
+    
+    -- Set up the backdrop for the container
+    self.CategoryListContainer:SetBackdrop({
+        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+        edgeSize = 16,
+        insets = { left = 4, right = 4, top = 4, bottom = 4 }
+    })
+    self.CategoryListContainer:SetBackdropColor(0.1, 0.1, 0.1, 0.8)
+    self.CategoryListContainer:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
+    
     -- CategoryList / Left Column (Now a ScrollFrame)
-    self.CategoryList = CreateFrame("ScrollFrame", nil, self, "ScrollFrameTemplate")
-    self.CategoryList:SetPoint("TOPLEFT", self, "TOPLEFT", Spacing, -Spacing*1.5)
-    self.CategoryList:SetSize(GuiWidth*0.2, GuiHeight-(Spacing*2))
+    self.CategoryList = CreateFrame("ScrollFrame", nil, self.CategoryListContainer, "ScrollFrameTemplate")
+    self.CategoryList:SetPoint("TOPLEFT", self.CategoryListContainer, "TOPLEFT", 8, -8)
+    self.CategoryList:SetPoint("BOTTOMRIGHT", self.CategoryListContainer, "BOTTOMRIGHT", -8, 8)
     
     -- Hide the scrollbar
     self.CategoryList.ScrollBar:Hide()
     self.CategoryList.ScrollBar.Show = function() end -- Prevent the scrollbar from showing
     
     -- Create the content frame for the ScrollFrame
-    self.CategoryListContent = CreateFrame("Frame", nil, self.CategoryList, "BackdropTemplate")
-    self.CategoryListContent:SetSize(GuiWidth*0.2, 10) -- Initial height, will be updated as categories are added
+    self.CategoryListContent = CreateFrame("Frame", nil, self.CategoryList)
+    self.CategoryListContent:SetPoint("TOPLEFT", 0, 0)
+    self.CategoryListContent:SetSize(GuiWidth*0.2 - 16, 10) -- Initial height, will be updated as categories are added
     self.CategoryList:SetScrollChild(self.CategoryListContent)
     
-    -- Set up the backdrop for the content frame
-    self.CategoryListContent:SetBackdrop({
-        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
-        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-        edgeSize = 8,
-        insets = { left = 2, right = 2, top = 2, bottom = 2 }
-    })
-    self.CategoryListContent:SetBackdropColor(0.1, 0.1, 0.1, 0.8)
-    self.CategoryListContent:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
-
     -- SettingsArea / Right Column
     self.SettingsArea = CreateFrame("Frame", nil, self, "BackdropTemplate")
-    self.SettingsArea:SetPoint("TOPLEFT", self.CategoryList, "TOPRIGHT", Spacing/2, 0)
+    self.SettingsArea:SetPoint("TOPLEFT", self.CategoryListContainer, "TOPRIGHT", Spacing/2, 0)
     self.SettingsArea:SetSize((GuiWidth-((GuiWidth*0.2)+(Spacing*2.5))), GuiHeight-(Spacing*2))
     self.SettingsArea:SetBackdrop({
         bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
