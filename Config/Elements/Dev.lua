@@ -3,7 +3,10 @@ local GUI = M["GUI"]
 local Fonts = C["Media"]["Fonts"]
 local Textures = C["Media"]["Textures"]
 
-GUI.ConfigElements["Dev"] = function(scrollContent)
+-- Initialize the DEV category if it doesn't exist
+GUI.ConfigElements["DEV"] = GUI.ConfigElements["DEV"] or {}
+
+GUI.ConfigElements["DEV"]["Dev"] = function(scrollContent)
     -- Create a checkbox for Dev mode with tooltip
     local firstCheckbox = GUI:CreateCheckbox(scrollContent, nil, "Enable Developer Mode", 20, -40, "Dev", "SettingOne", {
         title = "Developer Mode",
@@ -32,13 +35,13 @@ GUI.ConfigElements["Dev"] = function(scrollContent)
     })
     redBox:SetBackdropColor(1, 0, 0, 1) -- Red color (R,G,B,A)
 
-    local testText = GUI:CreateFontString(scrollContent, Fonts.RobotoSlab_Bold, 14, "Roboto Slab Bold 14")
+    local testText = GUI:CreateFontString(scrollContent, "Roboto Slab Bold 14", Fonts.RobotoSlab_Bold, 14)
     testText:SetPoint("TOPLEFT", redBox, "BOTTOMLEFT", 0, -20)
 
-    local testTextTwo = GUI:CreateFontString(scrollContent, Fonts.PassionOne, 18, "Passion One 18")
+    local testTextTwo = GUI:CreateFontString(scrollContent, "Passion One 18", Fonts.PassionOne, 18)
     testTextTwo:SetPoint("TOPLEFT", testText, "BOTTOMLEFT", 0, -10)
 
-    local testTextThree = GUI:CreateFontString(scrollContent, Fonts.Expressway, 14, "Expressway 14")
+    local testTextThree = GUI:CreateFontString(scrollContent, "Expressway 14", Fonts.Expressway, 14)
     testTextThree:SetPoint("TOPLEFT", testTextTwo, "BOTTOMLEFT", 0, -10)
 
     local borderTestFrame = CreateFrame("Frame", nil, scrollContent, "BackdropTemplate")

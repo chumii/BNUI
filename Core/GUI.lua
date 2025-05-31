@@ -259,7 +259,7 @@ function GUI:CreateCheckbox(parent, anchor, text, x, y, category, key, tooltip)
 end
 
 -- Helper function to create FontString
-function GUI:CreateFontString(parent, font, size, text)
+function GUI:CreateFontString(parent, text, font, size)
     local fs = parent:CreateFontString(nil,"OVERLAY")
     fs:SetFont(font or DefaultFont, size or DefaultFontSize, DefaultFontStyle)
     fs:SetText(text)
@@ -338,7 +338,7 @@ function GUI.Enable(self)
     if M.isDeveloper then
         self:AddCategory("DEV", {"Dev"})
     end
-    self:AddCategory("General", {"BNUI Settings"})
+    self:AddCategory("General", {"Profiles", "Settings"})
     self:AddCategory("Unitframes", {"Player", "Target", "Focus", "Pet"})
     self:AddCategory("Test", {"Test 1", "Test 2", "Test 3", "Test 4"})
     self:AddCategory("Test 5", {"Test 6", "Test 7", "Test 8", "Test 9"})
