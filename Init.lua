@@ -52,6 +52,7 @@ M.UIFont = "BNUIFontNormal"
 M.UIFontYellow = "BNUIFontNormalYellow"
 M.UIFontSmall = "BNUIFontSmall"
 M.UIFontSmallYellow = "BNUIFontSmallYellow"
+M.TextColorYellow = {1, 0.82, 0, 1}
 
 -- Tables
 local eventsFrame = CreateFrame("Frame")
