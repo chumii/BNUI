@@ -56,6 +56,24 @@ GUI.ConfigElements["DEV"]["Dev"] = function(scrollContent)
     borderTestFrame:SetBackdropBorderColor(0.8, 0.8, 0.8, 1)
     borderTestFrame:SetBackdropColor(0, 0, 0, 0.8)
 
+    -- Create a new frame for the red box
+    local box = CreateFrame("Frame", nil, scrollContent, "BackdropTemplate")
+
+    -- Set the size and position
+    box:SetHeight(700)
+    box:SetWidth(250)
+    box:SetPoint("TOPLEFT", borderTestFrame, "BOTTOMLEFT", 0, -10) 
+    
+    -- Set the background color to red
+    box:SetBackdrop({
+        bgFile = M.GetTexture("WGlass"),
+        -- edgeFile = nil,
+        -- tile = false,
+        -- tileSize = 0,
+        -- edgeSize = 0,
+        -- insets = { left = 0, right = 0, top = 0, bottom = 0 }
+    })
+    box:SetBackdropColor(1, 0, 0, 1) -- Red color (R,G,B,A)
     
 end 
 

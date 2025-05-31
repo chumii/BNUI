@@ -120,7 +120,7 @@ function GUI:CreateSubCategory(parent, text, yPosition)
 
     -- OnClick script
     button:SetScript("OnClick", function(self)
-        local mainFrame = self:GetParent():GetParent():GetParent() -- Get back to the main GUI frame
+        local mainFrame = M.GUI -- Get the main GUI frame directly from M
 
         -- Hide the currently active content frame and its parent ScrollFrame, if any
         if mainFrame.activeContentFrame then
@@ -136,14 +136,16 @@ function GUI:CreateSubCategory(parent, text, yPosition)
         mainFrame.activeContentFrame = self.scrollContent
 
         -- Update button states
-        for _, category in ipairs(mainFrame.Categories) do
-            for _, subcategory in ipairs(category.subcategories) do
-                if subcategory == self then
-                    subcategory.selected = true
-                    subcategory:SetBackdropColor(0.25, 0.25, 0.25, 0.8)
-                else
-                    subcategory.selected = false
-                    subcategory:SetBackdropColor(0.15, 0.15, 0.15, 0)
+        for _, category in pairs(mainFrame.Categories) do
+            if category.subcategories then
+                for _, subcategory in pairs(category.subcategories) do
+                    if subcategory == self then
+                        subcategory.selected = true
+                        subcategory:SetBackdropColor(0.25, 0.25, 0.25, 0.8)                        
+                    else
+                        subcategory.selected = false
+                        subcategory:SetBackdropColor(0.15, 0.15, 0.15, 0)
+                    end
                 end
             end
         end
@@ -488,7 +490,7 @@ function GUI.Enable(self)
     -- SettingsArea / Right Column
     self.SettingsArea = CreateFrame("Frame", nil, self, "BackdropTemplate")
     self.SettingsArea:SetPoint("TOPLEFT", self.CategoryListContainer, "TOPRIGHT", Spacing/2, 0)
-    
+    self.SettingsArea:SetPoint("BOTTOMLEFT", self.CategoryListContainer, "BOTTOMRIGHT", Spacing/2, 30)
     self.SettingsArea:SetSize((GuiWidth-((GuiWidth*0.2)+(Spacing*2.5))), GuiHeight-(Spacing*2))
     self.SettingsArea:SetBackdrop({
         bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
@@ -499,6 +501,42 @@ function GUI.Enable(self)
     self.SettingsArea:SetBackdropColor(0.1, 0.1, 0.1, 0.8)
     self.SettingsArea:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
 
+    self.StatusBar = CreateFrame("Frame", nil, self, "BackdropTemplate")
+    self.StatusBar:SetPoint("BOTTOMLEFT", self.CategoryListContainer, "BOTTOMRIGHT", Spacing/2, 0)
+    self.StatusBar:SetSize(self.SettingsArea:GetWidth()-220, 28)
+    self.StatusBar:SetBackdrop({
+        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+        edgeSize = 16,
+        insets = { left = 4, right = 4, top = 4, bottom = 4 }
+    })
+    self.StatusBar:SetBackdropColor(0.1, 0.1, 0.1, 0.8)
+    self.StatusBar:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
+
+    -- Add status text
+    self.StatusText = self.StatusBar:CreateFontString(nil, "OVERLAY")
+    self.StatusText:SetFont(Fonts.RobotoSlab_Bold, 12, DefaultFontStyle)
+    self.StatusText:SetPoint("LEFT", self.StatusBar, "LEFT", 10, 0)
+    self.StatusText:SetText(M.Title .. " v." .. M.Version .. " - by Bambule & Noroth")
+    self.StatusText:SetTextColor(unpack(M.TextColorYellow))
+
+    -- Reload / Close Buttons
+    self.ReloadButton = CreateFrame("Button", nil, self, "UIPanelButtonTemplate")
+    self.ReloadButton:SetPoint("LEFT", self.StatusBar, "RIGHT", 10, 0)
+    self.ReloadButton:SetSize(100, 24)
+    self.ReloadButton:SetText(RELOADUI)
+    self.ReloadButton:SetScript("OnClick", function()
+        ReloadUI()
+    end)
+
+    self.CloseButton = CreateFrame("Button", nil, self, "UIPanelButtonTemplate")
+    self.CloseButton:SetPoint("LEFT", self.ReloadButton, "RIGHT", 10, 0)
+    self.CloseButton:SetSize(100, 24)
+    self.CloseButton:SetText(CLOSE)
+    self.CloseButton:SetScript("OnClick", function()
+        self:Hide()
+    end)
+    
     -- calculate Height
     self:SetHeight(GuiHeight)
     self.Created = true

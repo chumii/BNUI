@@ -22,9 +22,10 @@ M.LibSharedMedia = LibStub("LibSharedMedia-3.0", true) or nil
 M.oUF = Engine and Engine.oUF or nil
 
 -- Addon Info
-M.Name = AddOnName
+M.AddOnName = AddOnName
 M.Title = C_AddOns_GetAddOnMetadata(AddOnName, "Title")
 M.Version = C_AddOns_GetAddOnMetadata(AddOnName, "Version")
+M.Author = C_AddOns_GetAddOnMetadata(AddOnName, "Author")
 M.AddonColor = "14B8A6"
 
 -- Player Info
