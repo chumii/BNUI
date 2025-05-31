@@ -124,22 +124,29 @@ function GUI:CreateSubCategory(parent, text, yPosition)
 
         -- Hide the currently active content frame and its parent ScrollFrame, if any
         if mainFrame.activeContentFrame then
-            -- Check if GetParent exists before calling Hide on the parent
-            if mainFrame.activeContentFrame.GetParent and mainFrame.activeContentFrame:GetParent() then 
-                 mainFrame.activeContentFrame:GetParent():Hide()
-            end
+            mainFrame.activeContentFrame:GetParent():Hide()
             mainFrame.activeContentFrame:Hide()
         end
 
         -- Show the ScrollFrame and the inner scroll content frame for the clicked subcategory
-        self.contentFrame:Show() -- Show the parent ScrollFrame
+        self.contentFrame:Show()
         self.scrollContent:Show()
 
-        -- Update the active content frame reference (pointing to the inner scrollContent)
+        -- Update the active content frame reference
         mainFrame.activeContentFrame = self.scrollContent
 
-        -- Optional: Add visual feedback for the selected button
-        -- You would need to add a 'selected' flag and update button colors/textures
+        -- Update button states
+        for _, category in ipairs(mainFrame.Categories) do
+            for _, subcategory in ipairs(category.subcategories) do
+                if subcategory == self then
+                    subcategory.selected = true
+                    subcategory:SetBackdropColor(0.25, 0.25, 0.25, 0.8)
+                else
+                    subcategory.selected = false
+                    subcategory:SetBackdropColor(0.15, 0.15, 0.15, 0)
+                end
+            end
+        end
     end)
 
     return button
@@ -481,6 +488,7 @@ function GUI.Enable(self)
     -- SettingsArea / Right Column
     self.SettingsArea = CreateFrame("Frame", nil, self, "BackdropTemplate")
     self.SettingsArea:SetPoint("TOPLEFT", self.CategoryListContainer, "TOPRIGHT", Spacing/2, 0)
+    
     self.SettingsArea:SetSize((GuiWidth-((GuiWidth*0.2)+(Spacing*2.5))), GuiHeight-(Spacing*2))
     self.SettingsArea:SetBackdrop({
         bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
@@ -513,9 +521,8 @@ function GUI.Enable(self)
     -- Set default subcategory to show
     if self.Categories[2] and self.Categories[2].subcategories[1] then
         local defaultButton = self.Categories[2].subcategories[1]
-        defaultButton.contentFrame:Show()
-        defaultButton.scrollContent:Show()
-        self.activeContentFrame = defaultButton.scrollContent
+        -- Simulate a click on the default button
+        defaultButton:GetScript("OnClick")(defaultButton)
     end
 
     M:PrintDev("GUI Enabled")
