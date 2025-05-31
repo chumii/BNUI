@@ -266,6 +266,161 @@ function GUI:CreateFontString(parent, text, font, size)
     return fs
 end
 
+-- Helper function to create a labeled dropdown menu
+function GUI:CreateLabeledDropdown(parent, anchor, labelText, x, y, width, options, default, onChange)
+    local label = self:CreateFontString(parent, labelText, DefaultFont, DefaultFontSize)
+    
+    -- Set position based on anchor if provided, otherwise use parent
+    if anchor then
+        label:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", x, y)
+    else
+        label:SetPoint("TOPLEFT", parent, "TOPLEFT", x, y)
+    end
+    
+    local dropdown = CreateFrame("Frame", nil, parent, "UIDropDownMenuTemplate")
+    dropdown:SetPoint("LEFT", label, "LEFT", width, 0)
+    dropdown:SetWidth(width)
+    
+    -- Create the dropdown menu
+    local function DropDown_OnClick(self, arg1, arg2, checked)
+        UIDropDownMenu_SetText(dropdown, self.value)
+        if onChange then
+            onChange(self.value)
+        end
+    end
+    
+    local function DropDown_Initialize(self, level)
+        local info = UIDropDownMenu_CreateInfo()
+        for _, option in ipairs(options) do
+            info.text = option.text
+            info.value = option.value
+            info.func = DropDown_OnClick
+            info.arg1 = option.value
+            info.checked = (option.value == default)
+            UIDropDownMenu_AddButton(info, level)
+        end
+    end
+    
+    UIDropDownMenu_Initialize(dropdown, DropDown_Initialize)
+    UIDropDownMenu_SetText(dropdown, default)
+    UIDropDownMenu_SetWidth(dropdown, width)
+    
+    return label, dropdown
+end
+
+-- Helper function to create a labeled editbox
+function GUI:CreateLabeledEditBox(parent, anchor, labelText, x, y, width, height, defaultText, onEnter)
+    local label = self:CreateFontString(parent, labelText, DefaultFont, DefaultFontSize)
+    
+    -- Set position based on anchor if provided, otherwise use parent
+    if anchor then
+        label:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", x, y)
+    else
+        label:SetPoint("TOPLEFT", parent, "TOPLEFT", x, y)
+    end
+    
+    local editbox = CreateFrame("EditBox", nil, parent, "InputBoxTemplate")
+    editbox:SetPoint("LEFT", label, "LEFT", width+23, 0)
+    editbox:SetSize(width, height)
+    editbox:SetAutoFocus(false)
+    editbox:SetText(defaultText or "")
+    
+    if onEnter then
+        editbox:SetScript("OnEnterPressed", function(self)
+            self:ClearFocus()
+            onEnter(self:GetText())
+        end)
+    end
+    
+    return label, editbox
+end
+
+-- Helper function to create a labeled checkbox
+function GUI:CreateLabeledCheckbox(parent, anchor, labelText, x, y, category, key, tooltip)
+    local checkbox = CreateFrame("CheckButton", nil, parent, "InterfaceOptionsCheckButtonTemplate")
+    
+    -- Set position based on anchor if provided, otherwise use parent
+    if anchor then
+        checkbox:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -5)
+    else
+        checkbox:SetPoint("TOPLEFT", parent, "TOPLEFT", x, y)
+    end
+    
+    checkbox.Text:SetFont(DefaultFont, DefaultFontSize, DefaultFontStyle)
+    checkbox.Text:SetText(labelText)
+    
+    -- Set the initial state based on profile or default
+    checkbox:SetChecked(M.Profiles:GetSetting(category, key))
+    
+    -- Add tooltip if provided
+    if tooltip then
+        checkbox:SetScript("OnEnter", function(self)
+            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+            GameTooltip:AddLine(tooltip.title, 1, 1, 1)
+            if tooltip.text then
+                GameTooltip:AddLine(tooltip.text, 0.7, 0.7, 0.7, true)
+            end
+            GameTooltip:Show()
+        end)
+        checkbox:SetScript("OnLeave", function(self)
+            GameTooltip:Hide()
+        end)
+    end
+    
+    -- Handle checkbox changes
+    checkbox:SetScript("OnClick", function(self)
+        M.Profiles:SetSetting(category, key, self:GetChecked())
+    end)
+    
+    return checkbox
+end
+
+-- Helper function to create a button
+function GUI:CreateButton(parent, anchor, text, x, y, width, height, onClick)
+    local button = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
+    
+    -- Set position based on anchor if provided, otherwise use parent
+    if anchor then
+        button:SetPoint("TOPLEFT", anchor, "TOPRIGHT", x, y)
+    else
+        button:SetPoint("TOPLEFT", parent, "TOPLEFT", x, y)
+    end
+    
+    button:SetSize(width, height)
+    button:SetText(text)
+    
+    if onClick then
+        button:SetScript("OnClick", onClick)
+    end
+    
+    return button
+end
+
+-- Helper function to create an editbox
+function GUI:CreateEditBox(parent, anchor, x, y, width, height, defaultText, onEnter)
+    local editbox = CreateFrame("EditBox", nil, parent, "InputBoxTemplate")
+    
+    -- Set position based on anchor if provided, otherwise use parent
+    if anchor then
+        editbox:SetPoint("TOPLEFT", anchor, "TOPLEFT", x, y)
+    else
+        editbox:SetPoint("TOPLEFT", parent, "TOPLEFT", x, y)
+    end
+    
+    editbox:SetSize(width, height)
+    editbox:SetAutoFocus(false)
+    editbox:SetText(defaultText or "")
+    
+    if onEnter then
+        editbox:SetScript("OnEnterPressed", function(self)
+            self:ClearFocus()
+            onEnter(self:GetText())
+        end)
+    end
+    
+    return editbox
+end
+
 function GUI.Enable(self)
     if self.Created then
         return
