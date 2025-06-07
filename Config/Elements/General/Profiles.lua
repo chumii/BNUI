@@ -24,7 +24,7 @@ GUI.ConfigElements["General"]["Profiles"] = function(scrollContent)
     end
     
     -- Current Profile Section
-    local currentProfileLabel, profileDropdown = GUI:CreateLabeledDropdown(scrollContent, nil, "Current Profile:", 20, -50, elementWidth,
+    local currentProfileLabel, profileDropdown = GUI:CreateLabeledDropdown(scrollContent, nil, "Current Profile", 20, -50, elementWidth,
         UpdateProfileDropdown(), M.CurrentProfile.name,
         function(value)
             M.Profiles:ChangeProfile(value)
@@ -32,10 +32,10 @@ GUI.ConfigElements["General"]["Profiles"] = function(scrollContent)
     )
     
     -- Create New Profile Section
-    local newProfileLabel, newProfileEditBox = GUI:CreateLabeledEditBox(scrollContent, currentProfileLabel, "Create New Profile:", 0, -spacing*3, elementWidth, elementHeight, "", nil)
+    local newProfileLabel, newProfileEditBox = GUI:CreateLabeledEditBox(scrollContent, currentProfileLabel, "Create New Profile", 0, -spacing*3, elementWidth, elementHeight, "", nil)
     
     -- Add create button next to the editbox
-    local createButton = GUI:CreateButton(scrollContent, newProfileEditBox, "Create", 5, 0, 80, elementHeight,
+    local createButton = GUI:CreateButton(scrollContent, newProfileEditBox, "Create Profile Button", 5, 0, 80, elementHeight,
         function()
             local text = newProfileEditBox:GetText()
             if text and text ~= "" then
@@ -48,7 +48,7 @@ GUI.ConfigElements["General"]["Profiles"] = function(scrollContent)
     )
     
     -- Copy Profile Section
-    local copyProfileLabel, copyProfileDropdown = GUI:CreateLabeledDropdown(scrollContent, newProfileLabel, "Copy Settings From:", 0, -spacing*3, elementWidth,
+    local copyProfileLabel, copyProfileDropdown = GUI:CreateLabeledDropdown(scrollContent, newProfileLabel, "Copy Settings From", 0, -spacing*3, elementWidth,
         UpdateProfileDropdown(), "",
         function(value)
             if value and value ~= "" then
@@ -58,7 +58,7 @@ GUI.ConfigElements["General"]["Profiles"] = function(scrollContent)
     )
     
     -- Delete Profile Section
-    local deleteProfileLabel, deleteProfileDropdown = GUI:CreateLabeledDropdown(scrollContent, copyProfileLabel, "Delete Profile:", 0, -spacing*3, elementWidth,
+    local deleteProfileLabel, deleteProfileDropdown = GUI:CreateLabeledDropdown(scrollContent, copyProfileLabel, "Delete Profile", 0, -spacing*3, elementWidth,
         UpdateProfileDropdown(), "",
         function(value)
             if value and value ~= "" then
