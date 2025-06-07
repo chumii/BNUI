@@ -3,7 +3,7 @@ if not L then
 	return
 end
 
--- GUI CategoryLocales
+-- GUI Category Locales
 L["Dev"] = "Dev"
 L["General"] = "General"
 L["Profiles"] = "Profiles"
