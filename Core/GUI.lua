@@ -1,8 +1,21 @@
-local M, C = BNUI[1], BNUI[2]
+local M, C, L = BNUI[1], BNUI[2], BNUI[3]
 local Fonts = C["Media"]["Fonts"]
 
 local UIParent = UIParent
 local CreateFrame = CreateFrame
+local GameTooltip = GameTooltip
+local ReloadUI = ReloadUI
+local InCombatLockdown = InCombatLockdown
+local UIDropDownMenu_CreateInfo = UIDropDownMenu_CreateInfo
+local UIDropDownMenu_Initialize = UIDropDownMenu_Initialize
+local UIDropDownMenu_SetText = UIDropDownMenu_SetText
+local UIDropDownMenu_SetWidth = UIDropDownMenu_SetWidth
+local UIDropDownMenu_AddButton = UIDropDownMenu_AddButton
+
+-- Helper function to get localized text
+local function GetLocalizedText(key)
+    return L[key] or key
+end
 
 -- Font Configuration
 local DefaultFont = Fonts.Expressway
@@ -22,12 +35,21 @@ GUI.Buttons = {}
 GUI.Widgets = {}
 GUI.Categories = {}
 
--- Helper function to create a category button
+-------------------------------------------------------------------------------
+-- GUI:CreateCategory
+-- Creates a category button for the left category list.
+-- @param parent (Frame): The parent frame to attach the button to.
+-- @param text (string): The text label for the category (will be localized if available).
+-- @param yPosition (number): The vertical offset for positioning.
+-- @return (Button): The created category button.
+-------------------------------------------------------------------------------
 function GUI:CreateCategory(parent, text, yPosition)
     local button = CreateFrame("Button", nil, parent, "BackdropTemplate")
     button:SetSize(parent:GetWidth(), CategoryHeight)
-    -- Position using the calculated absolute Y position from AddCategory
     button:SetPoint("TOPLEFT", parent, "TOPLEFT", 0, -yPosition)
+    
+    -- Store the original key for reference
+    button.key = text
     
     -- Button background
     button:SetBackdrop({
@@ -44,17 +66,26 @@ function GUI:CreateCategory(parent, text, yPosition)
     button.Text:SetFont(DefaultFont, DefaultFontSize, DefaultFontStyle)
     button.Text:SetTextColor(unpack(M.TextColorYellow))
     button.Text:SetPoint("CENTER", 0, 0)
-    button.Text:SetText(text)
+    button.Text:SetText(GetLocalizedText(text))
     
     return button
 end
 
--- Helper function to create a subcategory button
+-------------------------------------------------------------------------------
+-- GUI:CreateSubCategory
+-- Creates a subcategory button and its associated scrollable content frame.
+-- @param parent (Frame): The parent frame to attach the button to.
+-- @param text (string): The text label for the subcategory (will be localized if available).
+-- @param yPosition (number): The vertical offset for positioning.
+-- @return (Button): The created subcategory button (with .scrollContent and .contentFrame fields).
+-------------------------------------------------------------------------------
 function GUI:CreateSubCategory(parent, text, yPosition)
     local button = CreateFrame("Button", nil, parent, "BackdropTemplate")
     button:SetSize(parent:GetWidth(), SubcategoryHeight)
-    -- Position using the calculated absolute Y position from AddCategory
     button:SetPoint("TOPLEFT", parent, "TOPLEFT", 0, -yPosition)
+    
+    -- Store the original key for reference
+    button.key = text
     
     -- Button background
     button:SetBackdrop({
@@ -70,7 +101,7 @@ function GUI:CreateSubCategory(parent, text, yPosition)
     button.Text = button:CreateFontString(nil, "OVERLAY")
     button.Text:SetFont(DefaultFont, DefaltFontSizeSmall, DefaultFontStyle)
     button.Text:SetPoint("LEFT", 10, 0)
-    button.Text:SetText(text)
+    button.Text:SetText(GetLocalizedText(text))
     
     -- Button highlight
     button:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
@@ -100,11 +131,11 @@ function GUI:CreateSubCategory(parent, text, yPosition)
     -- Set the inner frame as the scroll child of the ScrollFrame
     contentFrame:SetScrollChild(scrollContent)
 
-    -- Add the subcategory title to the INNER content frame for testing
+    -- Add the subcategory title to the INNER content frame
     local titleText = scrollContent:CreateFontString(nil, "OVERLAY")
     titleText:SetFont(DefaultFont, DefaultFontSize, DefaultFontStyle)
     titleText:SetPoint("TOPLEFT", scrollContent, "TOPLEFT", 20, 0)
-    titleText:SetText(text)
+    titleText:SetText(GetLocalizedText(text))
     titleText:SetTextColor(1, 1, 1, 1)
 
     -- Add Divider under Title
@@ -154,7 +185,13 @@ function GUI:CreateSubCategory(parent, text, yPosition)
     return button
 end
 
--- Function to add a category with subcategories
+-------------------------------------------------------------------------------
+-- GUI:AddCategory
+-- Adds a category and its subcategories to the category list.
+-- @param name (string): The name of the category.
+-- @param subcategories (table): List of subcategory names (strings).
+-- @return (Button): The created category button.
+-------------------------------------------------------------------------------
 function GUI:AddCategory(name, subcategories)
     local previousBottomY = 0 -- Tracks the bottom Y position of the last element added across all category groups
 
@@ -204,7 +241,15 @@ function GUI:AddCategory(name, subcategories)
     return category
 end
 
--- Helper function to create a horizontal divider
+-------------------------------------------------------------------------------
+-- GUI:CreateDivider
+-- Creates a horizontal divider line for visual separation.
+-- @param parent (Frame): The parent frame to attach the divider to.
+-- @param xOffset (number): Horizontal offset from the left/right edges.
+-- @param yOffset (number): Vertical offset from the top edge.
+-- @param height (number): Height of the divider line.
+-- @return (Frame): The created divider frame.
+-------------------------------------------------------------------------------
 function GUI:CreateDivider(parent, xOffset, yOffset, height)
     local dividerName = "BNUI_Divider_" .. xOffset .. "_" .. yOffset
     local divider = CreateFrame("Frame", dividerName, parent, "BackdropTemplate")
@@ -227,7 +272,19 @@ function GUI:CreateDivider(parent, xOffset, yOffset, height)
     return divider
 end
 
--- Helper function to create a checkbox
+-------------------------------------------------------------------------------
+-- GUI:CreateCheckbox
+-- Creates a checkbox with optional tooltip and profile binding.
+-- @param parent (Frame): The parent frame to attach the checkbox to.
+-- @param anchor (Frame|nil): Anchor frame for positioning (optional).
+-- @param text (string): The label text for the checkbox (will be localized if available).
+-- @param x (number): X offset for positioning.
+-- @param y (number): Y offset for positioning.
+-- @param category (string): Profile category for saving state.
+-- @param key (string): Profile key for saving state.
+-- @param tooltip (table|nil): Tooltip table with .title and .text (will be localized if available).
+-- @return (CheckButton): The created checkbox.
+-------------------------------------------------------------------------------
 function GUI:CreateCheckbox(parent, anchor, text, x, y, category, key, tooltip)
     local checkbox = CreateFrame("CheckButton", nil, parent, "InterfaceOptionsCheckButtonTemplate")
     
@@ -239,7 +296,7 @@ function GUI:CreateCheckbox(parent, anchor, text, x, y, category, key, tooltip)
     end
     
     checkbox.Text:SetFont(DefaultFont, DefaultFontSize, DefaultFontStyle)
-    checkbox.Text:SetText(text)
+    checkbox.Text:SetText(GetLocalizedText(text))
     
     -- Set the initial state based on profile or default
     checkbox:SetChecked(M.Profiles:GetSetting(category, key))
@@ -248,9 +305,9 @@ function GUI:CreateCheckbox(parent, anchor, text, x, y, category, key, tooltip)
     if tooltip then
         checkbox:SetScript("OnEnter", function(self)
             GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-            GameTooltip:AddLine(tooltip.title, 1, 1, 1)
+            GameTooltip:AddLine(GetLocalizedText(tooltip.title), 1, 1, 1)
             if tooltip.text then
-                GameTooltip:AddLine(tooltip.text, 0.7, 0.7, 0.7, true)
+                GameTooltip:AddLine(GetLocalizedText(tooltip.text), 0.7, 0.7, 0.7, true)
             end
             GameTooltip:Show()
         end)
@@ -267,7 +324,15 @@ function GUI:CreateCheckbox(parent, anchor, text, x, y, category, key, tooltip)
     return checkbox
 end
 
--- Helper function to create FontString
+-------------------------------------------------------------------------------
+-- GUI:CreateFontString
+-- Creates a FontString for displaying text.
+-- @param parent (Frame): The parent frame.
+-- @param text (string): The text to display.
+-- @param font (string|nil): Font path (optional).
+-- @param size (number|nil): Font size (optional).
+-- @return (FontString): The created FontString.
+-------------------------------------------------------------------------------
 function GUI:CreateFontString(parent, text, font, size)
     local fs = parent:CreateFontString(nil,"OVERLAY")
     fs:SetFont(font or DefaultFont, size or DefaultFontSize, DefaultFontStyle)
@@ -275,9 +340,22 @@ function GUI:CreateFontString(parent, text, font, size)
     return fs
 end
 
--- Helper function to create a labeled dropdown menu
+-------------------------------------------------------------------------------
+-- GUI:CreateLabeledDropdown
+-- Creates a labeled dropdown menu.
+-- @param parent (Frame): The parent frame.
+-- @param anchor (Frame|nil): Anchor frame for positioning (optional).
+-- @param labelText (string): The label text (will be localized if available).
+-- @param x (number): X offset for positioning.
+-- @param y (number): Y offset for positioning.
+-- @param width (number): Width of the dropdown.
+-- @param options (table): List of {text=string, value=any} options (text will be localized if available).
+-- @param default (any): Default selected value.
+-- @param onChange (function|nil): Callback for when selection changes.
+-- @return (FontString, Frame): The label and the dropdown frame.
+-------------------------------------------------------------------------------
 function GUI:CreateLabeledDropdown(parent, anchor, labelText, x, y, width, options, default, onChange)
-    local label = self:CreateFontString(parent, labelText, DefaultFont, DefaultFontSize)
+    local label = self:CreateFontString(parent, GetLocalizedText(labelText), DefaultFont, DefaultFontSize)
     
     -- Set position based on anchor if provided, otherwise use parent
     if anchor then
@@ -292,7 +370,7 @@ function GUI:CreateLabeledDropdown(parent, anchor, labelText, x, y, width, optio
     
     -- Create the dropdown menu
     local function DropDown_OnClick(self, arg1, arg2, checked)
-        UIDropDownMenu_SetText(dropdown, self.value)
+        UIDropDownMenu_SetText(dropdown, GetLocalizedText(self.value))
         if onChange then
             onChange(self.value)
         end
@@ -301,7 +379,7 @@ function GUI:CreateLabeledDropdown(parent, anchor, labelText, x, y, width, optio
     local function DropDown_Initialize(self, level)
         local info = UIDropDownMenu_CreateInfo()
         for _, option in ipairs(options) do
-            info.text = option.text
+            info.text = GetLocalizedText(option.text)
             info.value = option.value
             info.func = DropDown_OnClick
             info.arg1 = option.value
@@ -311,15 +389,28 @@ function GUI:CreateLabeledDropdown(parent, anchor, labelText, x, y, width, optio
     end
     
     UIDropDownMenu_Initialize(dropdown, DropDown_Initialize)
-    UIDropDownMenu_SetText(dropdown, default)
+    UIDropDownMenu_SetText(dropdown, GetLocalizedText(default))
     UIDropDownMenu_SetWidth(dropdown, width)
     
     return label, dropdown
 end
 
--- Helper function to create a labeled editbox
+-------------------------------------------------------------------------------
+-- GUI:CreateLabeledEditBox
+-- Creates a labeled edit box for text input.
+-- @param parent (Frame): The parent frame.
+-- @param anchor (Frame|nil): Anchor frame for positioning (optional).
+-- @param labelText (string): The label text (will be localized if available).
+-- @param x (number): X offset for positioning.
+-- @param y (number): Y offset for positioning.
+-- @param width (number): Width of the edit box.
+-- @param height (number): Height of the edit box.
+-- @param defaultText (string|nil): Default text (will be localized if available).
+-- @param onEnter (function|nil): Callback for Enter key (optional).
+-- @return (FontString, EditBox): The label and the edit box.
+-------------------------------------------------------------------------------
 function GUI:CreateLabeledEditBox(parent, anchor, labelText, x, y, width, height, defaultText, onEnter)
-    local label = self:CreateFontString(parent, labelText, DefaultFont, DefaultFontSize)
+    local label = self:CreateFontString(parent, GetLocalizedText(labelText), DefaultFont, DefaultFontSize)
     
     -- Set position based on anchor if provided, otherwise use parent
     if anchor then
@@ -332,7 +423,7 @@ function GUI:CreateLabeledEditBox(parent, anchor, labelText, x, y, width, height
     editbox:SetPoint("LEFT", label, "LEFT", width+23, 0)
     editbox:SetSize(width, height)
     editbox:SetAutoFocus(false)
-    editbox:SetText(defaultText or "")
+    editbox:SetText(GetLocalizedText(defaultText or ""))
     
     if onEnter then
         editbox:SetScript("OnEnterPressed", function(self)
@@ -344,7 +435,19 @@ function GUI:CreateLabeledEditBox(parent, anchor, labelText, x, y, width, height
     return label, editbox
 end
 
--- Helper function to create a labeled checkbox
+-------------------------------------------------------------------------------
+-- GUI:CreateLabeledCheckbox
+-- Creates a labeled checkbox with optional tooltip and profile binding.
+-- @param parent (Frame): The parent frame.
+-- @param anchor (Frame|nil): Anchor frame for positioning (optional).
+-- @param labelText (string): The label text (will be localized if available).
+-- @param x (number): X offset for positioning.
+-- @param y (number): Y offset for positioning.
+-- @param category (string): Profile category for saving state.
+-- @param key (string): Profile key for saving state.
+-- @param tooltip (table|nil): Tooltip table with .title and .text (will be localized if available).
+-- @return (CheckButton): The created checkbox.
+-------------------------------------------------------------------------------
 function GUI:CreateLabeledCheckbox(parent, anchor, labelText, x, y, category, key, tooltip)
     local checkbox = CreateFrame("CheckButton", nil, parent, "InterfaceOptionsCheckButtonTemplate")
     
@@ -356,7 +459,7 @@ function GUI:CreateLabeledCheckbox(parent, anchor, labelText, x, y, category, ke
     end
     
     checkbox.Text:SetFont(DefaultFont, DefaultFontSize, DefaultFontStyle)
-    checkbox.Text:SetText(labelText)
+    checkbox.Text:SetText(GetLocalizedText(labelText))
     
     -- Set the initial state based on profile or default
     checkbox:SetChecked(M.Profiles:GetSetting(category, key))
@@ -365,9 +468,9 @@ function GUI:CreateLabeledCheckbox(parent, anchor, labelText, x, y, category, ke
     if tooltip then
         checkbox:SetScript("OnEnter", function(self)
             GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-            GameTooltip:AddLine(tooltip.title, 1, 1, 1)
+            GameTooltip:AddLine(GetLocalizedText(tooltip.title), 1, 1, 1)
             if tooltip.text then
-                GameTooltip:AddLine(tooltip.text, 0.7, 0.7, 0.7, true)
+                GameTooltip:AddLine(GetLocalizedText(tooltip.text), 0.7, 0.7, 0.7, true)
             end
             GameTooltip:Show()
         end)
@@ -384,7 +487,19 @@ function GUI:CreateLabeledCheckbox(parent, anchor, labelText, x, y, category, ke
     return checkbox
 end
 
--- Helper function to create a button
+-------------------------------------------------------------------------------
+-- GUI:CreateButton
+-- Creates a button with text and optional click handler.
+-- @param parent (Frame): The parent frame.
+-- @param anchor (Frame|nil): Anchor frame for positioning (optional).
+-- @param text (string): The button text (will be localized if available).
+-- @param x (number): X offset for positioning.
+-- @param y (number): Y offset for positioning.
+-- @param width (number): Button width.
+-- @param height (number): Button height.
+-- @param onClick (function|nil): Click handler (optional).
+-- @return (Button): The created button.
+-------------------------------------------------------------------------------
 function GUI:CreateButton(parent, anchor, text, x, y, width, height, onClick)
     local button = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
     
@@ -396,7 +511,7 @@ function GUI:CreateButton(parent, anchor, text, x, y, width, height, onClick)
     end
     
     button:SetSize(width, height)
-    button:SetText(text)
+    button:SetText(GetLocalizedText(text))
     
     if onClick then
         button:SetScript("OnClick", onClick)
@@ -405,7 +520,19 @@ function GUI:CreateButton(parent, anchor, text, x, y, width, height, onClick)
     return button
 end
 
--- Helper function to create an editbox
+-------------------------------------------------------------------------------
+-- GUI:CreateEditBox
+-- Creates an edit box for text input.
+-- @param parent (Frame): The parent frame.
+-- @param anchor (Frame|nil): Anchor frame for positioning (optional).
+-- @param x (number): X offset for positioning.
+-- @param y (number): Y offset for positioning.
+-- @param width (number): Width of the edit box.
+-- @param height (number): Height of the edit box.
+-- @param defaultText (string|nil): Default text (optional).
+-- @param onEnter (function|nil): Callback for Enter key (optional).
+-- @return (EditBox): The created edit box.
+-------------------------------------------------------------------------------
 function GUI:CreateEditBox(parent, anchor, x, y, width, height, defaultText, onEnter)
     local editbox = CreateFrame("EditBox", nil, parent, "InputBoxTemplate")
     
@@ -430,6 +557,12 @@ function GUI:CreateEditBox(parent, anchor, x, y, width, height, defaultText, onE
     return editbox
 end
 
+-------------------------------------------------------------------------------
+-- GUI.Enable
+-- Initializes and displays the main GUI window. Only runs once.
+-- Sets up all main frames, containers, categories, and default state.
+-- Usage: Call this to show the configuration window.
+-------------------------------------------------------------------------------
 function GUI.Enable(self)
     if self.Created then
         return
@@ -566,6 +699,11 @@ function GUI.Enable(self)
     M:PrintDev("GUI Enabled")
 end
 
+-------------------------------------------------------------------------------
+-- GUI.Toggle
+-- Shows or hides the main GUI window, unless in combat lockdown.
+-- Usage: Call this to toggle the configuration window.
+-------------------------------------------------------------------------------
 GUI.Toggle = function(self)
 	if InCombatLockdown() then
 		return

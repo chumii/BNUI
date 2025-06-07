@@ -10,7 +10,7 @@ function GUI:InitializeConfigElements()
         -- Find the corresponding category
         local categoryButton
         for _, category in ipairs(self.Categories) do
-            if category.Text:GetText() == categoryName then
+            if category.key == categoryName then
                 categoryButton = category
                 break
             end
@@ -22,7 +22,7 @@ function GUI:InitializeConfigElements()
                 -- Find the corresponding subcategory button
                 local subcategoryButton
                 for _, subcategory in ipairs(categoryButton.subcategories) do
-                    if subcategory.Text:GetText() == subcategoryText then
+                    if subcategory.key == subcategoryText then
                         subcategoryButton = subcategory
                         break
                     end
